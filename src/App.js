@@ -1,5 +1,6 @@
 import './App.css';
 import logo from './assets/images/SP-Bleu-Jaune.png'
+import favicon from './assets/images/favicon.ico'
 import data from './exemple_transactions.json'
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -9,7 +10,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
+import Button from '@material-ui/core/Button';
+import {Helmet} from "react-helmet"; 
 import React, { useState } from 'react';
+
 
 const useStyles = makeStyles({
   table: {
@@ -48,14 +52,19 @@ function App() {
   var total = roundedCredit + roundedDebit;
 
   return (
+
     <div className="App">
+      <Helmet>
+        <title>Smile & Pay</title>
+        <link rel="shortcut icon" href={favicon} />
+      </Helmet>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <div>
+      <div className='global-board'>
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
-          <TableHead>
+          <TableHead className='global-header'>
             <TableRow>
               <TableCell>Id</TableCell>
               <TableCell align="right">Datetime</TableCell>
@@ -74,6 +83,11 @@ function App() {
                 <TableCell align="right">{value.type}</TableCell>
                 <TableCell align="right">{value.mode}</TableCell>
                 <TableCell align="right">{value.commentaire}</TableCell>
+                {/* <TableCell>
+                  <Button onClick={deleteItem(index)}>
+                      Delete
+                    </Button>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -90,17 +104,17 @@ function App() {
       </TableContainer>
       </div>
 
-      <div>
+      <div className='total-board'>
         <TableContainer>
           <Table>
-            <TableHead>
+            <TableHead className='total-header'>
               <TableRow>
                 <TableCell>Total Debit</TableCell>
                 <TableCell>Total Credit</TableCell>
                 <TableCell>Total Credit + Debit</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody className='total-body'>
               <TableRow>
                 <TableCell>{roundedCredit}€</TableCell>
                 <TableCell>{roundedDebit}€</TableCell>

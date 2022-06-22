@@ -1,5 +1,6 @@
 .App {
-  /* text-align: center; */
+  text-align: center;
+
 }
 
 .App-logo {
@@ -8,8 +9,6 @@
 
 
 .App-header {
-  /* background-color: #282c34; */
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,4 +23,17 @@
 
 .App-json {
   color: black;
+}
+
+.global-board {
+
+  padding: 1% 5% 0% 5%;
+}
+
+.global-header, .total-header {
+  background-color: rgba(128, 128, 128, 0.452);
+}
+
+.total-board{
+  padding: 0% 5% 0% 5%;
 }
