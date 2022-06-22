@@ -10,8 +10,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import React, { useState } from 'react';
-import Paper from "@material-ui/core/Paper";
-
 
 const useStyles = makeStyles({
   table: {
@@ -22,6 +20,7 @@ const useStyles = makeStyles({
 function App() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const classes = useStyles();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -31,23 +30,22 @@ function App() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  
+  // fetch(data)
+  // .then(response => {
+  //   return response.json();
+  // })
+  // .then(d => {
+  //   this.setState({ clouds: d });
+  //   console.log("state", this.state.clouds)
+  // })
+  // .catch(error => console.log(error))
 
-  fetch(data)
-  .then(response => {
-    return response.json();
-  })
-  .then(d => {
-    this.setState({ clouds: d });
-    console.log("state", this.state.clouds)
-  })
-  .catch(error => console.log(error))
-
-  const classes = useStyles();
-  const zz = data.transactions.map(bill => bill.amount).reduce((acc, amount) => acc + amount);
-  const result = Object.values(data.transactions).reduce((r, { amount }) => r + amount, 0);
-  console.log("zzz",result);
-  console.log("aaa",zz);
-
+  var credit = data.transactions.filter(value => value.type ==="crédit").reduce((previousvalue, currentvalue) => previousvalue + parseFloat(currentvalue.amount), 0)
+  var debit = data.transactions.filter(value => value.type ==="débit").reduce((previousvalue, currentvalue) => previousvalue + parseFloat(currentvalue.amount), 0)
+  var roundedCredit = Math.round(credit *100)/100
+  var roundedDebit = Math.round(debit *100)/100
+  var total = roundedCredit + roundedDebit;
 
   return (
     <div className="App">
@@ -55,7 +53,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
       </header>
       <div>
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -72,7 +70,7 @@ function App() {
               <TableRow key={value.id}>
                 <TableCell>{value.id}</TableCell>
                 <TableCell align="right">{value.datetime}</TableCell>
-                <TableCell align="right">{value.amount}</TableCell>
+                <TableCell align="right">{value.amount}€</TableCell>
                 <TableCell align="right">{value.type}</TableCell>
                 <TableCell align="right">{value.mode}</TableCell>
                 <TableCell align="right">{value.commentaire}</TableCell>
@@ -91,6 +89,7 @@ function App() {
         />
       </TableContainer>
       </div>
+
       <div>
         <TableContainer>
           <Table>
@@ -98,16 +97,15 @@ function App() {
               <TableRow>
                 <TableCell>Total Debit</TableCell>
                 <TableCell>Total Credit</TableCell>
-                <TableCell>Total</TableCell>
+                <TableCell>Total Credit + Debit</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-            {data.transactions.map((value, index) => (
-              <TableRow key={value.id}>
-                <TableCell >{value.amount}</TableCell>
-                <TableCell >{value.type}</TableCell>
+              <TableRow>
+                <TableCell>{roundedCredit}€</TableCell>
+                <TableCell>{roundedDebit}€</TableCell>
+                <TableCell>{total}€</TableCell>
               </TableRow>
-            ))}
           </TableBody>
           </Table>
         </TableContainer>
