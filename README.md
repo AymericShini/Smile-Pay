@@ -1,3 +1,5 @@
+Hello !
+
 To start this project you will need to do :
  - npm i
  - npm start
